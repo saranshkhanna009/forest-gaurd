@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForestGuard | FireShield AI Ecosystem</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- FontAwesome Hooks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-fire-flame-curved"></i>
+            <h4 class="mb-0 fw-bold">ForestGuard</h4>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+            <li><a href="#prediction-section"><i class="fa-solid fa-brain"></i> AI Predictor</a></li>
+            <li><a href="#map-section"><i class="fa-solid fa-map-location-dot"></i> Risk Map</a></li>
+            <li><a href="#analytics-section"><i class="fa-solid fa-chart-line"></i> Analytics</a></li>
+            <li><a href="#"><i class="fa-solid fa-bell"></i> Alerts</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="content">
+        
+        <!-- Hero / Top Section -->
+        <header class="hero-section">
+            <div>
+                <h1 class="fw-bold">Welcome to FireShield AI</h1>
+                <p class="text-muted">11-Feature Autonomous Intelligence Engine</p>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-box mt-2 flex-column align-items-start" style="min-width: 200px;">
+                    <div class="d-flex w-100 justify-content-between align-items-center pb-2 mb-2 border-bottom border-secondary">
+                        <div class="text-muted small">Live: <span class="text-white fw-bold" id="weather-location">Awaiting Scan...</span></div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 w-100">
+                        <i id="weather-icon" class="fa-solid fa-globe fa-2x mb-0 text-primary"></i>
+                        <div>
+                            <div class="fw-bold h5 mb-0" id="weather-temp">--°C</div>
+                            <small id="weather-desc">Satellite Pipeline</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="row">
+            <!-- Left Column: Map and Scanner -->
+            <div class="col-lg-8">
+
+                <!-- Autonomous Intelligence Scanner -->
+                <section id="prediction-section" class="glass-card mb-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-satellite-dish"></i> Advanced Location Scanner</h5>
+                    <p class="text-muted small mb-3">Powered by Open-Meteo & OpenStreetMap Overpass AI</p>
+                    <div class="row g-2">
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-lg bg-dark text-white border-secondary" id="location-input" placeholder="e.g. Yosemite National Park, California, or Lat/Lon">
+                        </div>
+                        <div class="col-md-3 d-flex gap-2">
+                            <button class="btn btn-primary w-100 fw-bold" id="btn-scan">
+                                <i class="fa-solid fa-satellite-dish"></i> Scan
+                            </button>
+                            <button class="btn btn-outline-secondary" id="btn-geolocate" title="Use My Location">
+                                <i class="fa-solid fa-crosshairs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Map Section -->
+                <section id="map-section" class="glass-card mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3"><h5 class="fw-bold mb-0"><i class="fa-solid fa-layer-group"></i> Dynamic GIS Layer Map</h5><button class="btn btn-sm btn-outline-info" id="toggle-layer">Satellite View</button></div>
+                    <div id="map"></div>
+                </section>
+
+                <!-- Detailed 11-Feature Breakdown -->
+                <section class="glass-card">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-microchip"></i> Live Intelligence Variables</h5>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-muted mb-1 small">Temperature & Humidity</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-temp">--</span> / <span id="env-humid">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-muted mb-1 small">Topological Elevation</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-elevation">--</span>m</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-muted mb-1 small">7-Day Rainfall Sum</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-rain">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-muted mb-1 small">Soil Moisture Limit</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-soil">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary border-primary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-primary mb-1 small">Calculated Forest Cover</h6>
+                                    <h4 class="mb-0 text-white fw-bold"><span id="env-forest">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-muted mb-1 small">Distance to Roads</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-roads">--</span>m</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sythetics -->
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-success mb-1 small">NDVI Estimate</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-ndvi">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-warning mb-1 small">Leaf Litter Index</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-litter">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body py-2">
+                                    <h6 class="text-danger mb-1 small">Fire History Proxy</h6>
+                                    <h4 class="mb-0 text-white"><span id="env-history">--</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Results & Analytics -->
+            <div class="col-lg-4">
+                
+                <!-- Prediction Results Dashboard -->
+                <section class="glass-card h-100" id="results-card" style="display:none;">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-file-shield"></i> Advanced AI Report</h5>
+                    
+                    <div class="text-center py-4 mb-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                        <h2 id="risk-level" class="fw-bold mb-1">---</h2>
+                        <div class="text-muted small">Confidence: <span id="confidence-score">0</span>%</div>
+                    </div>
+
+                    <div class="glass-card mb-3 p-3" style="background: rgba(255,255,255,0.05); border-left: 4px solid #1f6feb; border-radius: 4px;">
+                        <span class="text-muted small fw-bold text-uppercase d-block mb-1"><i class="fa-solid fa-brain"></i> AI Explanation</span>
+                        <span id="ai-explanation" class="small text-light">Waiting for analysis...</span>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 mt-4 text-muted border-bottom border-secondary pb-2">Response Actions</h6>
+                    <ul class="list-group list-group-flush" id="recommendation-list">
+                        <!-- Populated dynamically -->
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <button class="btn btn-outline-secondary w-100 mb-2" onclick="window.print()">
+                            <i class="fa-solid fa-file-pdf"></i> Download AI Report
+                        </button>
+                    </div>
+                </section>
+                
+                <section class="glass-card text-center" id="empty-state">
+                    <div class="py-5 text-muted">
+                        <i class="fa-solid fa-fingerprint fa-3x mb-3"></i>
+                        <p>Locate a region to run the<br>XGBoost 11-Feature AI algorithm.</p>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="row mt-4 justify-content-center" id="analytics-section">
+            <div class="col-lg-8 col-md-10 mb-4">
+                <div class="glass-card">
+                    <h5 class="fw-bold mb-3">Wind Spread Estimation</h5>
+                    <div class="d-flex justify-content-around mt-4 pt-2">
+                        <div class="text-center">
+                            <div class="h2 text-info mb-0"><i class="fa-solid fa-wind"></i></div>
+                            <h4 class="fw-bold mt-2 text-info" id="est-wind">--</h4>
+                            <div class="text-muted small">Live Sustained Wind</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="h2 text-danger mb-0"><i class="fa-solid fa-tree"></i></div>
+                            <h4 class="fw-bold mt-2" id="est-trees">--</h4>
+                            <div class="text-muted small">Trees at Risk</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="h2 text-warning mb-0"><i class="fa-solid fa-house-chimney"></i></div>
+                            <h4 class="fw-bold mt-2" id="est-village">--</h4>
+                            <div class="text-muted small">Distance to Village</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center"><div class="col-lg-8 col-md-10 mb-4"><div class="glass-card"><h5 class="fw-bold mb-3">AI Risk Analytics</h5><canvas id="riskChart" height="120"></canvas></div></div></div>
+    <div class="row justify-content-center"><div class="col-lg-8 col-md-10 mb-4"><div class="glass-card"><h5 class="fw-bold mb-3">AI Assistant</h5><div id="chatbox" style="max-height:220px;overflow:auto" class="mb-2 small"></div><div class="input-group"><input id="chatInput" class="form-control" placeholder="Ask fire safety question"><button class="btn btn-primary" id="chatSend">Send</button></div></div></div></div><div class="row justify-content-center"><div class="col-lg-8 col-md-10 mb-4"><div class="glass-card"><h5 class="fw-bold mb-3">Live Wildfire News</h5><ul id="newsFeed" class="small mb-0"><li>Loading latest updates...</li></ul></div></div></div>
+</div>
+
+    <!-- Alert Popup -->
+    <div class="alert-popup alert-danger-custom" id="emergency-alert">
+        <h5 class="fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation"></i> CRITICAL WARNING</h5>
+        <p class="mb-0 small">High risk of forest fire detected. Emergency protocols initiated.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

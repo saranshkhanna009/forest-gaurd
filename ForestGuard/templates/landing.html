@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireShield AI | Powered by Razors</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --accent-pink: #ff2a5f;
+            --accent-purple: #9b51e0;
+            --accent-blue: #2d9cdb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+
+            /* SAME EFFECT ADDED */
+            background: linear-gradient(135deg,
+                    #0f2027 0%,
+                    #203a43 20%,
+                    #2c5364 40%,
+                    #4b134f 65%,
+                    #ff416c 85%,
+                    #ff4b2b 100%);
+            background-size: 400% 400%;
+            animation: vibrantBG 12s ease infinite;
+        }
+
+        @keyframes vibrantBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Animated Background Layer */
+        .bg-animation {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: .45;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 420px;
+            height: 420px;
+            background: var(--accent-pink);
+            top: -100px;
+            left: -120px;
+            animation-duration: 24s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent-purple);
+            bottom: -180px;
+            right: -100px;
+            animation-duration: 20s;
+        }
+
+        .orb-3 {
+            width: 320px;
+            height: 320px;
+            background: var(--accent-blue);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 18s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -40px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-30px, 35px) scale(.9);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        /* Top Branding */
+        .top-brand {
+            position: absolute;
+            top: 28px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+            animation: fadeDown 1s ease;
+        }
+
+        .powered-by {
+            font-size: .85rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: rgba(255, 255, 255, .7);
+        }
+
+        .razors-text {
+            font-weight: 900;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #fff, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .razors-text i {
+            color: #ff2a5f;
+            -webkit-text-fill-color: initial;
+        }
+
+        /* Center Content */
+        .glass-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hero-card {
+            width: 100%;
+            max-width: 850px;
+            text-align: center;
+            padding: 60px 40px;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+
+            background: rgba(20, 24, 34, .38);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            border: 1px solid rgba(255, 255, 255, .1);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .55);
+
+            animation: fadeUp 1.2s ease;
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 255, 255, .08),
+                    rgba(255, 255, 255, 0));
+            transform: skewX(-25deg);
+            animation: sheen 6s infinite;
+        }
+
+        @keyframes sheen {
+            0% {
+                left: -150%;
+            }
+
+            20% {
+                left: 180%;
+            }
+
+            100% {
+                left: 180%;
+            }
+        }
+
+        .badge-ai {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            margin-bottom: 22px;
+            font-size: .85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            background: rgba(155, 81, 224, .18);
+            border: 1px solid rgba(155, 81, 224, .45);
+            color: #e9d5ff;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 18px;
+
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 38px;
+            font-weight: 300;
+        }
+
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 46px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            position: relative;
+            transition: .3s ease;
+
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            border: 1px solid rgba(255, 255, 255, .2);
+        }
+
+        .launch-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+            filter: blur(20px);
+            opacity: .7;
+            z-index: -1;
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            color: #fff;
+        }
+
+        .launch-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        .launch-btn i {
+            transition: .3s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile */
+        @media(max-width:768px) {
+            .hero-title {
+                font-size: 2.7rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-card {
+                padding: 45px 25px;
+            }
+
+            .launch-btn {
+                padding: 16px 32px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="top-brand">
+        <div class="powered-by">
+            <span>Powered By</span>
+            <span class="razors-text"><i class="fa-solid fa-bolt"></i> Razors</span>
+        </div>
+    </div>
+
+    <div class="glass-container">
+        <div class="hero-card">
+
+            <div class="badge-ai">
+                <i class="fa-solid fa-microchip"></i> Next-Gen AI System
+            </div>
+
+            <h1 class="hero-title">FireShield AI</h1>
+
+            <p class="hero-subtitle">
+                The absolute pinnacle of intelligent forest fire prediction.
+                Unleash the power of machine learning, real-time satellite telemetry,
+                and active weather fetching to protect environments before disaster strikes.
+            </p>
+
+            <a href="/dashboard" class="launch-btn">
+                Launch Platform <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
